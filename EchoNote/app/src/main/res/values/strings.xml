@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">EchoNote</string>
+    <string name="app_tagline">本地优先的通话录音与逐字稿</string>
+
+    <!-- Navigation -->
+    <string name="nav_home">首页</string>
+    <string name="nav_history">记录</string>
+    <string name="nav_search">搜索</string>
+    <string name="nav_settings">设置</string>
+
+    <!-- Recording -->
+    <string name="start_recording">开始录音</string>
+    <string name="pause_recording">暂停</string>
+    <string name="resume_recording">继续</string>
+    <string name="stop_recording">停止</string>
+    <string name="recording_channel_name">录音进行中</string>
+    <string name="recording_channel_description">显示正在进行的录音状态</string>
+    <string name="transcription_channel_name">转写任务</string>
+    <string name="transcription_channel_description">显示语音转写与说话人分离进度</string>
+</resources>

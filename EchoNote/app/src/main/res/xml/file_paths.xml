@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- Only app-private audio and export staging are shareable. -->
+    <files-path
+        name="recordings"
+        path="recordings/" />
+    <files-path
+        name="exports"
+        path="exports/" />
+    <cache-path
+        name="cache"
+        path="." />
+</paths>

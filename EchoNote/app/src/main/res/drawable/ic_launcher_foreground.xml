@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Waveform bars: the "audio" half of the mark -->
+    <path
+        android:pathData="M32,50 L32,58"
+        android:strokeColor="#FF7FE3C0"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M41,44 L41,64"
+        android:strokeColor="#FF7FE3C0"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M67,44 L67,64"
+        android:strokeColor="#FF7FE3C0"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M76,50 L76,58"
+        android:strokeColor="#FF7FE3C0"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+    <!-- Microphone capsule -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M54,28 a8,8 0 0 1 8,8 v12 a8,8 0 0 1 -16,0 v-12 a8,8 0 0 1 8,-8 z" />
+    <!-- Microphone cradle -->
+    <path
+        android:pathData="M40,48 v4 a14,14 0 0 0 28,0 v-4"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+    <!-- Stem -->
+    <path
+        android:pathData="M54,68 L54,78"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeWidth="4"
+        android:strokeLineCap="round" />
+</vector>

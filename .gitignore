@@ -1,0 +1,8 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Tooling internal state
+.mimosa/
+
+# Keep the workspace root tidy; EchoNote has its own .gitignore

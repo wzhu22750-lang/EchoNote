@@ -132,6 +132,9 @@ class TranscriptAssemblerTest {
                 ),
             ),
             listOf(speaker(0, 300, 0), speaker(300, 1_000, 1)),
+            // A owns only 300 ms, below the default minSplitMs of 400 — the
+            // assembler deliberately refuses to split on such thin evidence.
+            minSplitMs = 250,
         )
 
         assertEquals(2, segments.size)
@@ -151,8 +154,9 @@ class TranscriptAssemblerTest {
 
     @Test
     fun `tokenInSpeakerGapIsLabelledUnknown`() {
-        // A [0,300), gap [300,400), B [400,1000). Token 世's midpoint (325) falls
+        // A [0,300), gap [300,400), B [400,1000). Token 世's midpoint (312) falls
         // in the gap and must not be silently attributed to either side.
+        // Timestamps are exact binary fractions so ms conversion is exact.
         val segments = TranscriptAssembler.assemble(
             listOf(
                 asr(
@@ -160,15 +164,18 @@ class TranscriptAssemblerTest {
                     endMs = 1_000,
                     text = "你好世界",
                     tokens = listOf("你", "好", "世", "界"),
-                    tokenTimestamps = listOf(0.0f, 0.1f, 0.3f, 0.35f),
+                    tokenTimestamps = listOf(0.0f, 0.125f, 0.25f, 0.375f),
                 ),
             ),
             listOf(speaker(0, 300, 0), speaker(400, 1_000, 1)),
             minSegmentMs = 0, // keep the raw split boundaries visible
+            minSplitMs = 250, // A owns 300 ms; the default 400 would refuse to split
         )
 
+        // The UNKNOWN run starts at 世's token timestamp (250 ms), not at the
+        // speaker gap (300 ms) — the assembler trusts ASR timing, not the VAD gap.
         assertEquals(3, segments.size)
-        assertEquals(listOf(0L, 300L, 350L), segments.map { it.startMs })
+        assertEquals(listOf(0L, 250L, 375L), segments.map { it.startMs })
         assertEquals(
             listOf(0, TranscriptAssembler.UNKNOWN_SPEAKER, 1),
             segments.map { it.speakerIndex },
@@ -319,17 +326,16 @@ class TranscriptAssemblerTest {
 
     @Test
     fun `joinTextRulesCoverCjkLatinWhitespaceAndEmpty`() {
-        val join = TranscriptAssembler::joinText
-
-        assertEquals("世界", join("", "世界"))
-        assertEquals("你好", join("你好", ""))
-        assertEquals("你好世界", join("你好", "世界")) // CJK+CJK: no space
-        assertEquals("hello world", join("hello", "world")) // Latin+Latin: space
-        assertEquals("你好world", join("你好", "world")) // CJK boundary: no space
-        assertEquals("hello你好", join("hello", "你好")) // CJK boundary: no space
-        assertEquals("ab", join("a ", "b")) // existing whitespace: no extra space
-        assertEquals("ab", join("a", " b"))
-        assertEquals("会议，很好", join("会议，", "很好")) // fullwidth punctuation counts as CJK
-        assertEquals("カタカナ汉字", join("カタカナ", "汉字")) // kana counts as CJK
+        assertEquals("世界", TranscriptAssembler.joinText("", "世界"))
+        assertEquals("你好", TranscriptAssembler.joinText("你好", ""))
+        assertEquals("你好世界", TranscriptAssembler.joinText("你好", "世界")) // CJK+CJK: no space
+        assertEquals("hello world", TranscriptAssembler.joinText("hello", "world")) // Latin+Latin: space
+        assertEquals("你好world", TranscriptAssembler.joinText("你好", "world")) // CJK boundary: no space
+        assertEquals("hello你好", TranscriptAssembler.joinText("hello", "你好")) // CJK boundary: no space
+        // Existing whitespace is kept as-is (no extra space added on top).
+        assertEquals("a b", TranscriptAssembler.joinText("a ", "b"))
+        assertEquals("a b", TranscriptAssembler.joinText("a", " b"))
+        assertEquals("会议，很好", TranscriptAssembler.joinText("会议，", "很好")) // fullwidth punctuation counts as CJK
+        assertEquals("カタカナ汉字", TranscriptAssembler.joinText("カタカナ", "汉字")) // kana counts as CJK
     }
 }

@@ -55,10 +55,12 @@
 - 见 `FeasibilityScreen`；`MicCaptureEngine.probe()` 在设置页声纹录入与可行性页两处使用
 
 #### 测试
-- 49 个单元测试全部通过：
+- **134 个单元测试全部通过**：
   - `SpeakerClustererReferenceTest`（19）：基于 sherpa-onnx 1.13.8 Python 参考实现在 4 段真实音频上生成的 192 维 CAM++ 声纹夹具（`app/src/test/resources/reference/`）
   - `TranscriptExporterTest`（30）：五格式导出、时间戳/说话人开关、embedding 不外泄断言
-- 新增 DSP / 音频库测试（`WavWriter` / `WavRepair` / `WavFileReader` / `Resampler` / `StreamingResampler` / `PcmAudioUtils` / `TranscriptAssembler`）与 Robolectric Room DAO 测试
+  - 新增 DSP / 音频库（57）：`WavWriter` / `WavRepair` / `WavFileReader`（8/16/24/32bit、float、EXTENSIBLE、奇数 chunk、截断）/ `Resampler`（频率保持 + 10 kHz 抗混叠实测）/ `StreamingResampler`（分块 ≈ 一次性）/ `PcmAudioUtils`（14 项）
+  - 新增 `TranscriptAssemblerTest`（16）：跨说话人切分、无 token 时间戳降级、说话人间隙中的 token → 未知、CJK/拉丁拼接
+  - 新增 Robolectric `RecordingDaoTest`（12，sdk 34）：LIKE 搜索各维过滤、外键 CASCADE / SET_NULL、`mergeSpeakers` 完整后状态
 
 #### 文档
 - `README.md`（含 "Based on" sherpa-onnx Apache-2.0 声明）、`ARCHITECTURE.md`、`TECHNICAL_FEASIBILITY.md`（微信音频证据链 + 诚实声明）、`THIRD_PARTY_LICENSES.md`（含拒绝理由）、`CHANGELOG.md`、`MODEL_URLS_VERIFIED.md`

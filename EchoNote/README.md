@@ -77,7 +77,7 @@ cd EchoNote
 ## 当前状态（如实声明，截至 2026-09-30）
 
 - **核心引擎（音频、AI、数据库、导出）与全部 9 个界面均已完成**：`:app:compileDebugKotlin` 与 `:app:assembleDebug` 构建成功，产物 `app/build/outputs/apk/debug/app-debug.apk`（约 73.6 MB）包含 arm64-v8a / armeabi-v7a 各 4 个推理 `.so`（libonnxruntime + sherpa-onnx 三件套）。
-- **单元测试**：原 49 个全部通过（聚类 19 + 导出 30，聚类算法用 sherpa-onnx 1.13.8 Python 参考实现在 4 段真实音频上生成的 192 维 CAM++ 声纹夹具校准）；DSP / 音频库与 Room DAO 测试套件为本轮新增。
+- **单元测试 134/134 全部通过**：聚类 19（真实声纹夹具校准）+ 导出 30 + 本轮新增 DSP/音频库 57 个（WAV 写读/崩溃修复、重采样抗混叠、PCM 工具、逐字稿对齐合并）与 Robolectric Room DAO 12 个（LIKE 搜索、外键 CASCADE/SET_NULL、mergeSpeakers 事务后状态）。
 - **本轮补齐的功能**：Search / Settings / Detail / Models / Feasibility 五个界面、导入音频（模式 C）UI 入口、「我的声纹」录入 UI、模型下载进度与许可展示、逐字稿播放联动编辑。
 - **移除了三个从未实现也从未被调用的占位空壳**（`TranscriptionService`、`RecordingActionReceiver`、`MediaProjectionPermissionActivity`）及其 manifest 声明——声明的但不存在的功能比诚实的缺席更有害。
 - **真机测试未进行**——开发环境没有连接任何 Android 设备（`adb devices` 为空）；**Android 端引擎从未在真机上运行过**（AI 管线是通过同版本 Python 参考实现验证的）。

@@ -4,6 +4,12 @@
 > 交接原因：上一轮 agent 因 API 配额（insufficient_balance）中断，两个负责写 UI 的 subagent 失败。
 > 本文档目标：让下一个 agent **不需要重新调研、不需要重新下载模型、不踩已知的坑**，直接接着干。
 
+> **【2026-09-30 后续轮次更新】** 本文档以下描述的「待办状态」已大幅推进，**阅读时请以本条为准**：
+> - §4 的 12 个编译错误已全部消除：5 个界面（Search/Settings/Detail/Models/Feasibility）已完成，`:app:compileDebugKotlin` 与 `:app:assembleDebug` 均 **BUILD SUCCESSFUL**，APK（73.6 MB）含 arm64-v8a/armeabi-v7a 各 4 个推理 `.so`；
+> - §11 P1 已完成：导入音频 UI 入口（HomeScreen，模式 C）、「我的声纹」录入 UI（SettingsScreen）、三个占位空壳（TranscriptionService/RecordingActionReceiver/MediaProjectionPermissionActivity）已从 manifest 与代码中移除；
+> - §11 P2 测试已完成：**134/134 通过**（原 49 + 新增 DSP/音频 57 + TranscriptAssembler 16 + Robolectric DAO 12）；6 份文档已写好（README/ARCHITECTURE/TECHNICAL_FEASIBILITY/THIRD_PARTY_LICENSES/CHANGELOG/MODEL_URLS_VERIFIED）并同步最新状态；gradle wrapper 已生成；已 git init 并提交；
+> - **仍未完成**：真机测试（无连接设备）、微信双方音频真机验证、`assembleRelease`、Room exportSchema/migration。
+
 ---
 
 ## 0. 一句话状态

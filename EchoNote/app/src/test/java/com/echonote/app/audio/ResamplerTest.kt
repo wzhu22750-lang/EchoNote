@@ -132,6 +132,7 @@ class ResamplerTest {
         assertEquals(32_000L, AudioSpec.bytesForMs(1_000L))
         assertEquals(1_000L, AudioSpec.msForBytes(32_000L))
         assertEquals("partial frames truncate down", 0L, AudioSpec.msForBytes(31L))
-        assertEquals(100L, AudioSpec.bytesForMs(100L) / 320L)
+        // 100 ms = 3,200 bytes; every 320 bytes is 10 ms.
+        assertEquals(10L, AudioSpec.bytesForMs(100L) / 320L)
     }
 }
